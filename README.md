@@ -1,6 +1,6 @@
 # ⛏️ Sible Mining Runner (auto-OTP)
 
-A bot that mines on [Sible](https://mine.sible.network) for you, on **many accounts at once**.
+A bot that mines on [Sible](https://mine.sible.network/me124) for you, on **many accounts at once**.
 
 **What it does, in plain words:**
 
@@ -10,6 +10,8 @@ A bot that mines on [Sible](https://mine.sible.network) for you, on **many accou
 4. Repeats every hour, so you don't have to
 
 You only need to fill in one file (`accounts.json`) and run one command.
+
+👉 **New to Sible?** [Sign up here with my referral link](https://mine.sible.network/me124)
 
 ---
 
@@ -26,11 +28,13 @@ Typing a new code into the bot every 30 minutes, on every account, is not realis
 This is why the Gmail App Password is required. Set it up once and forget about it.
 
 > 🔒 **Use a new Gmail account, not your main one.**
-> Create a fresh Gmail just for Sible (and use it as your Sible login email). The App Password gives the bot access to that inbox, so keep your personal Gmail out of it.
+> Create a fresh Gmail just for Sible (and use it as your [Sible](https://mine.sible.network/me124) login email). The App Password gives the bot access to that inbox, so keep your personal Gmail out of it.
 
 ---
 
 ## 🚀 Quick Start
+
+**0. Create your Sible account(s)** → [mine.sible.network/me124](https://mine.sible.network/me124)
 
 **1. Install Node.js 18 or newer** → https://nodejs.org
 
@@ -93,7 +97,7 @@ Choose `1` for direct mode or `2` to use proxies. That's it ✅
 
 ### Step 0: Use a new Gmail account
 
-Create a **new Gmail just for Sible** and sign up on Sible with it. Don't use your main Gmail. Also make sure **IMAP is enabled** in Gmail: Settings → See all settings → Forwarding and POP/IMAP → Enable IMAP.
+Create a **new Gmail just for Sible** and [sign up on Sible](https://mine.sible.network/me124) with it. Don't use your main Gmail. Also make sure **IMAP is enabled** in Gmail: Settings → See all settings → Forwarding and POP/IMAP → Enable IMAP.
 
 ### Step 1: Turn on 2-Step Verification
 
@@ -192,6 +196,12 @@ Dead proxies are removed automatically when the bot starts.
 | `config.json` | Optional settings |
 | `proxy.txt` | Optional proxies |
 | `mining-log.csv` | Log of every cycle |
+
+---
+
+## ❤️ Support
+
+If this bot helps you, sign up to Sible with my link: **[https://mine.sible.network/me124](https://mine.sible.network/me124)**
 
 ---
 
