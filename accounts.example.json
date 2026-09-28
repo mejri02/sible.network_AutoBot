@@ -1,0 +1,11 @@
+{
+  "_readme": "gmailAppPassword = 16-char App Password from https://myaccount.google.com/apppasswords — NOT your Gmail login password. Requires 2-Step Verification ON and IMAP enabled in Gmail settings.",
+  "accounts": [
+    {
+      "label": "acc1",
+      "email": "your-sible-email@gmail.com",
+      "password": "your-sible-password",
+      "gmailAppPassword": "xxxx xxxx xxxx xxxx"
+    }
+  ]
+}

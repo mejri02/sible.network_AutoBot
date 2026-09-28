@@ -1,0 +1,15 @@
+{
+  "name": "sible-bot",
+  "version": "1.1.0",
+  "description": "Sible Mining Runner with Gmail auto-OTP",
+  "main": "index.js",
+  "scripts": { "start": "node index.js" },
+  "engines": { "node": ">=18" },
+  "dependencies": {
+    "imapflow": "^1.0.164",
+    "mailparser": "^3.7.1",
+    "node-fetch": "^2.7.0",
+    "socks-proxy-agent": "^8.0.4",
+    "undici": "^6.19.8"
+  }
+}

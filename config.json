@@ -1,0 +1,16 @@
+{
+  "referralCode": "me124",
+  "interval": 3600,
+  "jitterSec": 3,
+  "minDelayBetweenAccountsSec": 2,
+  "maxDelayBetweenAccountsSec": 6,
+  "rateLimitBackoffSec": 30,
+  "refreshEndpoint": "/auth/refresh",
+  "autoRelogin": true,
+  "reloginOn401": true,
+  "logCsv": true,
+  "csvFile": "mining-log.csv",
+  "discordWebhook": "",
+  "quiet": false,
+  "debugRefresh": true
+}
