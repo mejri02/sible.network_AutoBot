@@ -86,8 +86,8 @@ Example: `"gmailAppPassword": "abcd efgh ijkl mnop"`
 **2. Download the bot and install it**
 
 ```bash
-git clone https://github.com/mejri02/sible-bot.git
-cd sible-bot
+git clone https://github.com/mejri02/sible.network_AutoBot.git
+cd sible.network_AutoBot
 npm install
 ```
 
