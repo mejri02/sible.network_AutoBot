@@ -32,63 +32,6 @@ This is why the Gmail App Password is required. Set it up once and forget about 
 
 ---
 
-## 🚀 Quick Start
-
-**0. Create your Sible account(s)** → [mine.sible.network/me124](https://mine.sible.network/me124)
-
-**1. Install Node.js 18 or newer** → https://nodejs.org
-
-**2. Download the bot and install it**
-
-```bash
-git clone https://github.com/mejri02/sible-bot.git
-cd sible-bot
-npm install
-```
-
-**3. Create your files**
-
-```bash
-cp accounts.example.json accounts.json
-cp config.example.json config.json
-```
-
-**4. Fill in `accounts.json`** (see the App Password guide below 👇)
-
-```json
-{
-  "_readme": "gmailAppPassword = 16-char App Password from https://myaccount.google.com/apppasswords — NOT your Gmail login password. Requires 2-Step Verification ON and IMAP enabled in Gmail settings.",
-  "accounts": [
-    {
-      "label": "acc1",
-      "email": "your-sible-email@gmail.com",
-      "password": "your-sible-password",
-      "gmailAppPassword": "xxxx xxxx xxxx xxxx"
-    }
-  ]
-}
-```
-
-Want more accounts? Add more `{ ... }` blocks inside `"accounts"`, separated by commas.
-
-| Field | What to put |
-|---|---|
-| `label` | Any nickname you want (`acc1`, `main`, ...) |
-| `email` | Your Sible login email. It must be the **Gmail** that receives the OTP |
-| `password` | Your Sible password |
-| `gmailAppPassword` | The 16-character App Password (guide below) |
-| `gmailAddress` | *Optional.* Only add it if the OTP goes to a different Gmail than `email` |
-
-**5. Run it**
-
-```bash
-node index.js
-```
-
-Choose `1` for direct mode or `2` to use proxies. That's it ✅
-
----
-
 ## 📝 How to Get Your Gmail App Password
 
 > **This is NOT your normal Gmail password.**
@@ -120,7 +63,7 @@ Google shows you a 16-character password like this:
 ![Generated app password example](screenshots/app-password.jpg)
 
 1. **Copy it immediately.** You will not be able to see it again.
-2. Paste it into the `gmailAppPassword` field in your `accounts.json`.
+2. Paste it into the `gmailAppPassword` field in your `accounts.json` (see Quick Start below).
 
 Example: `"gmailAppPassword": "abcd efgh ijkl mnop"`
 
@@ -131,6 +74,63 @@ Example: `"gmailAppPassword": "abcd efgh ijkl mnop"`
 - **If you change your main Google password**, Google revokes the App Password. Create a new one and update `accounts.json`.
 - **Use a dedicated Gmail, not your personal one.** The App Password gives access to that inbox.
 - **Never share it or upload it to GitHub.** It gives access to your Gmail. Keep `accounts.json` private (it is already in `.gitignore`).
+
+---
+
+## 🚀 Quick Start
+
+**0. Create your Sible account(s)** → [mine.sible.network/me124](https://mine.sible.network/me124)
+
+**1. Install Node.js 18 or newer** → https://nodejs.org
+
+**2. Download the bot and install it**
+
+```bash
+git clone https://github.com/mejri02/sible-bot.git
+cd sible-bot
+npm install
+```
+
+**3. Create your files**
+
+```bash
+cp accounts.example.json accounts.json
+cp config.example.json config.json
+```
+
+**4. Fill in `accounts.json`** (using the App Password from the guide above 👆)
+
+```json
+{
+  "_readme": "gmailAppPassword = 16-char App Password from https://myaccount.google.com/apppasswords — NOT your Gmail login password. Requires 2-Step Verification ON and IMAP enabled in Gmail settings.",
+  "accounts": [
+    {
+      "label": "acc1",
+      "email": "your-sible-email@gmail.com",
+      "password": "your-sible-password",
+      "gmailAppPassword": "xxxx xxxx xxxx xxxx"
+    }
+  ]
+}
+```
+
+Want more accounts? Add more `{ ... }` blocks inside `"accounts"`, separated by commas.
+
+| Field | What to put |
+|---|---|
+| `label` | Any nickname you want (`acc1`, `main`, ...) |
+| `email` | Your Sible login email. It must be the **Gmail** that receives the OTP |
+| `password` | Your Sible password |
+| `gmailAppPassword` | The 16-character App Password (see guide above) |
+| `gmailAddress` | *Optional.* Only add it if the OTP goes to a different Gmail than `email` |
+
+**5. Run it**
+
+```bash
+node index.js
+```
+
+Choose `1` for direct mode or `2` to use proxies. That's it ✅
 
 ---
 
