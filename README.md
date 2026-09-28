@@ -60,7 +60,7 @@ Create a **new Gmail just for Sible** and [sign up on Sible](https://mine.sible.
 
 Google shows you a 16-character password like this:
 
-![Generated app password example](screenshots/app-password.jpg)
+![Generated app password example](app-password.jpg)
 
 1. **Copy it immediately.** You will not be able to see it again.
 2. Paste it into the `gmailAppPassword` field in your `accounts.json` (see Quick Start below).
