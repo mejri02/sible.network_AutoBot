@@ -562,6 +562,29 @@ async function callWithAuth(pathname, account, store, proxy, opts = {}) {
   }
 }
 
+// ─────────── 409 helper ───────────
+function extractNextAdAt(errBody) {
+  if (!errBody) return null;
+  const paths = [
+    errBody?.error?.details?.[0]?.nextAdAt,
+    errBody?.error?.details?.[0]?.data?.nextAdAt,
+    errBody?.error?.nextAdAt,
+    errBody?.error?.data?.nextAdAt,
+    errBody?.details?.[0]?.nextAdAt,
+    errBody?.details?.nextAdAt,
+    errBody?.nextAdAt,
+    errBody?.data?.nextAdAt,
+    errBody?.data?.session?.nextAdAt,
+  ];
+  for (const p of paths) {
+    if (p) {
+      const t = new Date(p).getTime();
+      if (!isNaN(t)) return t;
+    }
+  }
+  return null;
+}
+
 // ─────────── cycle ───────────
 async function cycle(account, store, proxy) {
   const tag = account.label || account.username;
@@ -584,6 +607,8 @@ async function cycle(account, store, proxy) {
 
   const cap = s0.adMaxPerSession ?? d0.adMaxPerSession ?? 3;
   let watched = s0.adsWatched ?? 0;
+  let attempts409 = 0;
+  const MAX_409 = 6;
 
   while (watched < cap) {
     try {
@@ -591,17 +616,52 @@ async function cycle(account, store, proxy) {
       watched = r.data.session?.adsWatched ?? watched + 1;
       const boost = r.data.session?.adBoostPct ?? 0;
       console.log(`${t} ${C.m('📺')} ad ${watched}/${cap}  ${C.g('+' + boost + '%')}`);
+      attempts409 = 0;
     } catch (e) {
       if (e.status === 429) {
         console.log(`${t} ${C.y('🛑 429 — waiting 30s')}`);
         await sleep(30000);
         continue;
       }
+
       if (e.status === 409) {
-        console.log(`${t} ${C.y('⏳ 409 — next ad not ready, waiting 15s')}`);
-        await sleep(15000);
+        const code = e.body?.error?.code || '';
+
+        // Claim is required → stop ads and go claim
+        if (code === 'AD_CLAIM_REQUIRED') {
+          console.log(`${t} ${C.y('💰')} claim required — ending ad loop`);
+          break;
+        }
+
+        attempts409++;
+        if (attempts409 > MAX_409) {
+          console.log(`${t} ${C.y('⚠️')} 409 x${MAX_409} (${code || 'unknown'}) — ending ad loop this cycle`);
+          break;
+        }
+
+        let nextAt = extractNextAdAt(e.body);
+        if (!nextAt) {
+          try {
+            const st = (await callWithAuth('/mining/status', account, store, proxy)).data;
+            if (st.session?.nextAdAt) nextAt = new Date(st.session.nextAdAt).getTime();
+          } catch {}
+        }
+
+        if (nextAt && nextAt > Date.now()) {
+          const waitMs = Math.min(
+            Math.max(3000, nextAt - Date.now() + randInt(1000, 3000)),
+            5 * 60 * 1000
+          );
+          console.log(`${t} ${C.y('⏳')} next ad in ${Math.ceil(waitMs / 1000)}s`);
+          await sleep(waitMs);
+          continue;
+        }
+
+        console.log(`${t} ${C.y(`⏳ 409 (${code || 'unknown'}) — waiting 60s`)}`);
+        await sleep(60000);
         continue;
       }
+
       console.log(`${t} ${C.y('⚠️')}  ad: ${e.message}`);
       break;
     }
@@ -647,6 +707,14 @@ async function cycle(account, store, proxy) {
   saveStore(store);
 
   const s = after.session || {};
+  const adsDone = (s.adsWatched ?? 0) >= (s.adMaxPerSession ?? 3);
+
+  // If ads are pending, come back soon to try again
+  if (!adsDone && s.isRunning) {
+    return Date.now() + randInt(40000, 90000);
+  }
+
+  // Otherwise use adaptive timing
   const events = [];
   if (s.nextAdAt) events.push(new Date(s.nextAdAt).getTime());
   if (s.endsAt)   events.push(new Date(s.endsAt).getTime());
@@ -669,7 +737,6 @@ async function main() {
   console.log(C.gr('     (NOT your normal Gmail password)'));
   console.log('');
 
-  // load accounts.json
   let accountCfg;
   try { accountCfg = loadAccounts(ACCOUNTS_FILE); }
   catch (e) { console.log(C.r(`❌ ${e.message}`)); process.exit(1); }
@@ -713,7 +780,6 @@ async function main() {
   }
   console.log('');
 
-  // load or bootstrap tokens
   const store = loadStore();
   let accounts = store.accounts || [];
 
